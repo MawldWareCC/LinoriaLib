@@ -1213,6 +1213,7 @@ do
 		end;
 
 		function KeyPicker:OnClick(Callback)
+			if TextBoxFocused then return false end
 			KeyPicker.Clicked = Callback
 		end
 
