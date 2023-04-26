@@ -65,7 +65,13 @@ table.insert(Library.Signals, RenderStepped:Connect(function(Delta)
 		Library.CurrentRainbowColor = Color3.fromHSV(Hue, 0.8, 1);
 	end
 end))
-
+local TextBoxFocused = false
+InputService.TextBoxFocused:Connect(function()
+	TextBoxFocused = true
+end)
+InputService.TextBoxFocusReleased:Connect(function()
+	TextBoxFocused = false
+end)
 local function GetPlayersString()
 	local PlayerList = Players:GetPlayers();
 
@@ -1184,15 +1190,16 @@ do
 
 				local Key = KeyPicker.Value;
 
-				if Key == 'MB1' or Key == 'MB2' then
-					if InputService:GetFocusedTextBox() ~= nil then return false end
+				if Key == 'MB1' or Key == 'MB2' then	
+					if TextBoxFocused then return false end
 					return Key == 'MB1' and InputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
 						or Key == 'MB2' and InputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2);
 				else
-					if InputService:GetFocusedTextBox() ~= nil then return false end
+					if TextBoxFocused then return false end
 					return InputService:IsKeyDown(Enum.KeyCode[KeyPicker.Value]);
 				end;
 			else
+				if TextBoxFocused then return false end
 				return KeyPicker.Toggled;
 			end;
 		end;
