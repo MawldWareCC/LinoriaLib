@@ -1181,7 +1181,7 @@ do
 		end;
 
 		function KeyPicker:GetState()
-			if TextBoxFocused then return KeyPicker.Value end
+			if TextBoxFocused then return KeyPicker.Toggled end
 			if KeyPicker.Mode == 'Always' then
 				return true;
 			elseif KeyPicker.Mode == 'Hold' then
@@ -1212,7 +1212,7 @@ do
 		end;
 
 		function KeyPicker:OnClick(Callback)
-			if TextBoxFocused then return false end
+			if TextBoxFocused then return end
 			KeyPicker.Clicked = Callback
 		end
 
@@ -1226,7 +1226,6 @@ do
 		end
 
 		function KeyPicker:DoClick()
-			if TextBoxFocused then return false end
 			if ParentObj.Type == 'Toggle' and KeyPicker.SyncToggleState then
 				ParentObj:SetValue(not ParentObj.Value)
 			end
@@ -1293,6 +1292,7 @@ do
 
 		Library:GiveSignal(InputService.InputBegan:Connect(function(Input)
 			if (not Picking) then
+				if not TextBoxFocused then 
 				if KeyPicker.Mode == 'Toggle' then
 					local Key = KeyPicker.Value;
 
@@ -1311,8 +1311,8 @@ do
 				end;
 
 				KeyPicker:Update();
-			end;
-
+				end;
+			end
 			if Input.UserInputType == Enum.UserInputType.MouseButton1 then
 				local AbsPos, AbsSize = ModeSelectOuter.AbsolutePosition, ModeSelectOuter.AbsoluteSize;
 
@@ -1322,10 +1322,11 @@ do
 					ModeSelectOuter.Visible = false;
 				end;
 			end;
-		end))
+				
+			end))
 
 		Library:GiveSignal(InputService.InputEnded:Connect(function(Input)
-			if (not Picking) then
+			if (not Picking) and not TextBoxFocused then 
 				KeyPicker:Update();
 			end;
 		end))
