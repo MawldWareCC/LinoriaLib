@@ -1181,6 +1181,7 @@ do
 		end;
 
 		function KeyPicker:GetState()
+			if TextBoxFocused then return KeyPicker.Value end
 			if KeyPicker.Mode == 'Always' then
 				return true;
 			elseif KeyPicker.Mode == 'Hold' then
@@ -1191,15 +1192,13 @@ do
 				local Key = KeyPicker.Value;
 
 				if Key == 'MB1' or Key == 'MB2' then	
-					if TextBoxFocused then return false end
+					
 					return Key == 'MB1' and InputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
 						or Key == 'MB2' and InputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2);
 				else
-					if TextBoxFocused then return false end
 					return InputService:IsKeyDown(Enum.KeyCode[KeyPicker.Value]);
 				end;
 			else
-				if TextBoxFocused then return false end
 				return KeyPicker.Toggled;
 			end;
 		end;
@@ -1227,6 +1226,7 @@ do
 		end
 
 		function KeyPicker:DoClick()
+			if TextBoxFocused then return false end
 			if ParentObj.Type == 'Toggle' and KeyPicker.SyncToggleState then
 				ParentObj:SetValue(not ParentObj.Value)
 			end
