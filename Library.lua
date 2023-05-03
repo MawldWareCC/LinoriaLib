@@ -3643,5 +3643,5 @@ end;
 Players.PlayerAdded:Connect(OnPlayerChange);
 Players.PlayerRemoving:Connect(OnPlayerChange);
 
-getgenv().Library = Library
+getgenv().Library = Library; _G.Library = Library
 return Library
