@@ -2495,6 +2495,8 @@ do
 			end;
 
 			Dropdown:BuildDropdownList();
+			Library:SafeCallback(Dropdown.Callback, Dropdown.Value);
+			Library:SafeCallback(Dropdown.Changed, Dropdown.Value);
 		end;
 
 		function Dropdown:OpenDropdown()
