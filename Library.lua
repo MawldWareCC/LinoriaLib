@@ -44,6 +44,7 @@ local Library = {
 
 	Signals = {};
 	ScreenGui = ScreenGui;
+	TextTitle = nil;
 };
 
 local RainbowStep = 0
@@ -1192,7 +1193,7 @@ do
 				local Key = KeyPicker.Value;
 
 				if Key == 'MB1' or Key == 'MB2' then	
-					
+
 					return Key == 'MB1' and InputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
 						or Key == 'MB2' and InputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2);
 				else
@@ -1293,24 +1294,24 @@ do
 		Library:GiveSignal(InputService.InputBegan:Connect(function(Input)
 			if (not Picking) then
 				if not TextBoxFocused then 
-				if KeyPicker.Mode == 'Toggle' then
-					local Key = KeyPicker.Value;
+					if KeyPicker.Mode == 'Toggle' then
+						local Key = KeyPicker.Value;
 
-					if Key == 'MB1' or Key == 'MB2' then
-						if Key == 'MB1' and Input.UserInputType == Enum.UserInputType.MouseButton1
-							or Key == 'MB2' and Input.UserInputType == Enum.UserInputType.MouseButton2 then
-							KeyPicker.Toggled = not KeyPicker.Toggled
-							KeyPicker:DoClick()
-						end;
-					elseif Input.UserInputType == Enum.UserInputType.Keyboard then
-						if Input.KeyCode.Name == Key then
-							KeyPicker.Toggled = not KeyPicker.Toggled;
-							KeyPicker:DoClick()
+						if Key == 'MB1' or Key == 'MB2' then
+							if Key == 'MB1' and Input.UserInputType == Enum.UserInputType.MouseButton1
+								or Key == 'MB2' and Input.UserInputType == Enum.UserInputType.MouseButton2 then
+								KeyPicker.Toggled = not KeyPicker.Toggled
+								KeyPicker:DoClick()
+							end;
+						elseif Input.UserInputType == Enum.UserInputType.Keyboard then
+							if Input.KeyCode.Name == Key then
+								KeyPicker.Toggled = not KeyPicker.Toggled;
+								KeyPicker:DoClick()
+							end;
 						end;
 					end;
-				end;
 
-				KeyPicker:Update();
+					KeyPicker:Update();
 				end;
 			end
 			if Input.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -1322,8 +1323,8 @@ do
 					ModeSelectOuter.Visible = false;
 				end;
 			end;
-				
-			end))
+
+		end))
 
 		Library:GiveSignal(InputService.InputEnded:Connect(function(Input)
 			if (not Picking) and not TextBoxFocused then 
@@ -3008,7 +3009,7 @@ function Library:CreateWindow(...)
 		ZIndex = 1;
 		Parent = Inner;
 	});
-
+	Library.TextTitle = WindowLabel;
 	local MainSectionOuter = Library:Create('Frame', {
 		BackgroundColor3 = Library.BackgroundColor;
 		BorderColor3 = Library.OutlineColor;
